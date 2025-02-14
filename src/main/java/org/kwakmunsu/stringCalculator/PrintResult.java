@@ -15,14 +15,17 @@ public class PrintResult {
     }
 
     public void printAppender(double result,String operand,String operator,int printNum) {
+
         String[] nums = operandParser(operand);
+
         stringBuilder.append(printNum+". ");
         IntStream.range(0,nums.length).forEach(i -> {
                     stringBuilder.append(nums[i]+" ");
                     boolean isLast = (i == nums.length - 1);
                     stringBuilder.append(isLast ? "=" : operator).append(" ");
                 });
-        stringBuilder.append(result % 1 == 0 ? (int)result : result).append("\n"); // n.0 일경우 정수 형변환
+
+        stringBuilder.append(result % 1 == 0.0 ? String.valueOf((int)result) : String.valueOf(result)).append("\n"); // result = n.0 일경우 정수 형변환
     }
 
     private String[] operandParser(String operand) {

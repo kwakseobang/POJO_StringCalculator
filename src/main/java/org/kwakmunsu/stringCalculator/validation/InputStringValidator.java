@@ -8,9 +8,9 @@ public class InputStringValidator {
 
     private final String OpSymbolSeparator = "[+\\-*/]";
 
-    public void validateString(String expression,String op) throws IllegalArgumentException {
+    public void validateString(String operand,String op) throws IllegalArgumentException {
 
-        if (!expression.matches(numSeparator)) {
+        if (!operand.matches(numSeparator)) {
           throw new IllegalArgumentException(ErrorMessage.BAD_REQUEST_OPERAND);
         }
         if (!op.matches(OpSymbolSeparator)) {
