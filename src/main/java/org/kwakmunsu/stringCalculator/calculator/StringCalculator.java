@@ -51,7 +51,7 @@ public class StringCalculator {
         while (!nums.isEmpty()) {
             result = operation(result,nums.poll(),op);
         }
-        return result;
+        return Math.round(result * 10.0) / 10.0;
     }
 
     private double operation(double firstNum,int secNum,String op) throws ArithmeticException{
