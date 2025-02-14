@@ -1,5 +1,7 @@
 package org.kwakmunsu.stringCalculator.validation;
 
+import static org.assertj.core.api.AssertionsForClassTypes.assertThatCode;
+import static org.assertj.core.api.SoftAssertions.assertSoftly;
 import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -29,10 +31,14 @@ class InputStringValidatorTest {
         String operator4 = "/";
 
         // when & then
-        assertDoesNotThrow(() -> inputStringValidator.validateString(opreand1, operator1));
-        assertDoesNotThrow(() -> inputStringValidator.validateString(opreand2, operator2));
-        assertDoesNotThrow(() -> inputStringValidator.validateString(opreand3, operator3));
-        assertDoesNotThrow(() -> inputStringValidator.validateString(opreand4, operator4));
+        assertThatCode(() -> inputStringValidator.validateString(opreand1, operator1))
+                .doesNotThrowAnyException();
+        assertThatCode(() -> inputStringValidator.validateString(opreand2, operator2))
+                .doesNotThrowAnyException();
+        assertThatCode(() -> inputStringValidator.validateString(opreand3, operator3))
+                .doesNotThrowAnyException();
+        assertThatCode(() -> inputStringValidator.validateString(opreand4, operator4))
+                .doesNotThrowAnyException();
 
     }
 
@@ -58,38 +64,32 @@ class InputStringValidatorTest {
         String operator6 = "";
 
         // when & then
-        assertAll(
-                () -> {
-                    IllegalArgumentException ex = assertThrows(IllegalArgumentException.class,
-                            () -> inputStringValidator.validateString(opreand1, operator1));
-                    assertEquals(ErrorMessage.BAD_REQUEST_OPERAND, ex.getMessage());
-                },
-                () -> {
-                    IllegalArgumentException ex = assertThrows(IllegalArgumentException.class,
-                            () -> inputStringValidator.validateString(opreand2, operator2));
-                    assertEquals(ErrorMessage.BAD_REQUEST_OPERAND, ex.getMessage());
-                },
-                () -> {
-                    IllegalArgumentException ex = assertThrows(IllegalArgumentException.class,
-                            () -> inputStringValidator.validateString(opreand3, operator3));
-                    assertEquals(ErrorMessage.BAD_REQUEST_OPERAND, ex.getMessage());
-                },
-                () -> {
-                    IllegalArgumentException ex = assertThrows(IllegalArgumentException.class,
-                            () -> inputStringValidator.validateString(opreand4, operator4));
-                    assertEquals(ErrorMessage.BAD_REQUEST_OPERAND, ex.getMessage());
-                },
-                () -> {
-                    IllegalArgumentException ex = assertThrows(IllegalArgumentException.class,
-                            () -> inputStringValidator.validateString(opreand5, operator5));
-                    assertEquals(ErrorMessage.BAD_REQUEST_OPERAND, ex.getMessage());
-                },
-                () -> {
-                    IllegalArgumentException ex = assertThrows(IllegalArgumentException.class,
-                            () -> inputStringValidator.validateString(opreand6, operator6));
-                    assertEquals(ErrorMessage.BAD_REQUEST_OPERATOR, ex.getMessage());
+        assertSoftly( softly -> {
+            softly.assertThatThrownBy(() -> inputStringValidator.validateString(opreand1, operator1))
+                    .isInstanceOf(IllegalArgumentException.class)
+                    .hasMessage(ErrorMessage.BAD_REQUEST_OPERAND);
+
+            softly.assertThatThrownBy(() -> inputStringValidator.validateString(opreand2, operator2))
+                    .isInstanceOf(IllegalArgumentException.class)
+                    .hasMessage(ErrorMessage.BAD_REQUEST_OPERAND);
+
+            softly.assertThatThrownBy(() -> inputStringValidator.validateString(opreand3, operator3))
+                    .isInstanceOf(IllegalArgumentException.class)
+                    .hasMessage(ErrorMessage.BAD_REQUEST_OPERAND);
+
+            softly.assertThatThrownBy(() -> inputStringValidator.validateString(opreand4, operator4))
+                    .isInstanceOf(IllegalArgumentException.class)
+                    .hasMessage(ErrorMessage.BAD_REQUEST_OPERAND);
+
+            softly.assertThatThrownBy(() -> inputStringValidator.validateString(opreand5, operator5))
+                    .isInstanceOf(IllegalArgumentException.class)
+                    .hasMessage(ErrorMessage.BAD_REQUEST_OPERAND);
+
+            softly.assertThatThrownBy(() -> inputStringValidator.validateString(opreand6, operator6))
+                    .isInstanceOf(IllegalArgumentException.class)
+                    .hasMessage(ErrorMessage.BAD_REQUEST_OPERATOR);
                 }
         );
-    }
 
+    }
 }
