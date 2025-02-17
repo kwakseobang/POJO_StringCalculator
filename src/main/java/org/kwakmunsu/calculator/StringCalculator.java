@@ -8,7 +8,7 @@ public class StringCalculator {
 
     public String calculateExpression(Queue<Integer> operandQueue, String operator) {
         if (operandQueue == null) {
-            throw new IllegalArgumentException(ErrorMessage.INVALID_NULL.getMessage());
+            throw new NullPointerException(ErrorMessage.INVALID_NULL.getMessage());
         }
         double result = operandQueue.poll();
         while (!operandQueue.isEmpty()) {
