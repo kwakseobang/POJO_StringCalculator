@@ -32,6 +32,29 @@
 3. 7 - 2 - 3 = 2
 4. 4 / 2 / 5 = 0.4
 ~~~
+
+## 구현 로직
+1. 사용자가 입력을 한다.
+2. 피연산자, 연산자, 구분자 등 입력 값에 대해 유효성 검증을 한다.
+3. 유효성 검증이 완료되면 피연산자를 구분자를 기준으로 파싱하여 저장한다.
+4. 편한 연산을 위해 Queue로 변환 후 계산한다.
+5. 수식과 결과 값을 출력 버퍼에 저장한다.
+6. 종료 시 버퍼에 있는 출력 값들을 출력한다.
+
+## 에외처리 
+- IllegalArgumentException
+  - 피연산자를 잘못 입력한 케이스
+  - 연산자를 잘못 입력한 케이스
+- NoSuchElementException
+  - 입력 시 공백을 기준으로 피연산자만을 입력하거나 연산자만을 입력하거나 빈 값일 떄 등 다양한 케이스
+- NullPointerException
+  - 유효성 검사 시 ExpressionData가 Null 인 케이스
+  - Queue로 변환 후 오류로 인해 값이 Null 인 케이스
+- ExitException
+  - 사용자가 종료 버튼(q)을 눌렀을 떄 발생 
+- ArithmeticException
+  - 0으로 나눈 케이스  
+
 ## 🤝 Git Convention
 
 ### Branch
