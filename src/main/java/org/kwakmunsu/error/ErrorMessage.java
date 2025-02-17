@@ -1,0 +1,21 @@
+package org.kwakmunsu.error;
+
+public enum ErrorMessage {
+
+    BAD_REQUEST_OPERAND("ERROR - 피연산자를 잘못 입력하셨습니다."),
+    BAD_REQUEST_OPERATOR("ERROR - 연산자를 잘못 입력하셨습니다."),
+    ZERO_DIVISION("ERROR - 0으로 나눌 수 없습니다."),
+    INVALID_NULL("ERROR - null 은 허용되지 않습니다."),
+    NO_SUCH_ELEMENT("ERROR - 입력값이 존재하지 않습니다.");
+
+    private final String message;
+
+    ErrorMessage(String message) {
+        this.message = message;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+}

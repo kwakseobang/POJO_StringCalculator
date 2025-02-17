@@ -1,63 +1,47 @@
 package org.kwakmunsu;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.Calendar;
-import java.util.StringTokenizer;
-import org.kwakmunsu.stringCalculator.PrintResult;
-import org.kwakmunsu.stringCalculator.calculator.StringCalculator;
-import org.kwakmunsu.stringCalculator.error.ErrorMessage;
-import org.kwakmunsu.stringCalculator.parser.InputStringParser;
-import org.kwakmunsu.stringCalculator.validation.InputStringValidator;
-import org.kwakmunsu.stringCalculator.validation.ZeroDivisionValidator;
+import java.util.NoSuchElementException;
+import java.util.Queue;
+import java.util.SortedMap;
+import org.kwakmunsu.Input.ExpressionData;
+import org.kwakmunsu.Input.InputExpression;
+import org.kwakmunsu.OutPut.PrintResult;
+import org.kwakmunsu.calculator.StringCalculator;
+import org.kwakmunsu.error.ExitException;
+import org.kwakmunsu.parser.OperandParser;
+import org.kwakmunsu.util.ArrayConverter;
+import org.kwakmunsu.validation.ExpressionValidator;
 
 public class Main {
 
-    public static void main(String[] args) throws IOException {
-        InputStringParser inputStringParser = new InputStringParser();
-        InputStringValidator inputStringValidator = new InputStringValidator();
-        ZeroDivisionValidator zeroDivisionValidator = new ZeroDivisionValidator();
-        StringCalculator stringCalculator = new StringCalculator(
-                inputStringParser,
-                inputStringValidator,
-                zeroDivisionValidator
-        );
+    public static void main(String[] args) {
 
-        String operand = "";
-        String operator = "";
+        StringCalculator stringCalculator = new StringCalculator();
+        InputExpression inputExpression = new InputExpression();
+        PrintResult printResult = new PrintResult();
         int printNum = 1;
-        PrintResult printResult = null;
-
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringBuilder stringBuilder = new StringBuilder();
 
         while (true) {
-            // 입력
             try {
-                StringTokenizer stringTokenizer = new StringTokenizer(br.readLine());
-                operand = stringTokenizer.nextToken();
-                if (operand.equals("q"))
-                    break;
-                operator = stringTokenizer.nextToken();
-                // 계산 후 출력 저장
-                printResult = new PrintResult(stringBuilder, inputStringParser);
-                printResult.printAppender(
-                        stringCalculator.calculateString(operand, operator),
-                        operand,
-                        operator,
-                        printNum
+                ExpressionData expressionData = inputExpression.input();
+                ExpressionValidator.validateExpression(expressionData);
+                String[] parsedOperand = OperandParser.splitOperand(expressionData.operand());
+                Queue<Integer> operandQueue = ArrayConverter.toIntegerQueue(parsedOperand);
+                printResult.resultAppender(parsedOperand, expressionData.operator(),
+                    Double.parseDouble(stringCalculator.calculateExpression(operandQueue,
+                        expressionData.operator())),
+                    printNum++
                 );
-                printNum++;
-            } catch (IllegalArgumentException | ArithmeticException ex) {
+            } catch (IOException | IllegalArgumentException | ArithmeticException |
+                     NoSuchElementException | NullPointerException ex) {
                 System.out.println(ex.getMessage());
-                System.out.println(ErrorMessage.EXIT);
+                break;
+            } catch (ExitException ex) {
                 break;
             }
         }
-        // 출력
         printResult.resultPrinter();
-
     }
 
 }
