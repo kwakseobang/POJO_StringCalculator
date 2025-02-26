@@ -1,4 +1,4 @@
-package org.kwakmunsu.Output;
+package org.kwakmunsu.output;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -6,39 +6,32 @@ import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.kwakmunsu.OutPut.PrintResult;
+import org.kwakmunsu.input.Expression;
 
 class PrintResultTest {
 
     private final ByteArrayOutputStream outputStreamCaptor = new ByteArrayOutputStream();
-    private PrintResult printResult;
+    private ExpressionResultDisplay display;
 
     @BeforeEach
     void setUp() {
         System.setOut(new PrintStream(outputStreamCaptor)); // System.out 가로채기
-        printResult = new PrintResult();
+        display = new ExpressionResultDisplay();
     }
 
     @Test
     void 연산_결과_추가_테스트() {
         // given
-        String[] operand = {"42", "21", "5"};
         String operator = "+";
-        double result = 68.0;
-        int printNum = 1;
-
-        String[] operand2 = {"4", "2", "5"};
-        String operator2 = "/";
-        double result2 = 0.4;
-        int printNum2 = 2;
+        String[] operands = {"3", "2", "4"};
+        Expression expression = new Expression(operands, operator);
+        double result1 = 9;
 
         //when
-        printResult.resultAppender(operand, operator, result, printNum);
-        printResult.resultAppender(operand2, operator2, result2, printNum2);
-        printResult.resultPrinter();
+        display.resultPrinter(expression, result1);
+
         // then
-        assertThat(outputStreamCaptor.toString().trim())
-            .isEqualTo(
-                "1. 42 + 21 + 5 = 68\n2. 4 / 2 / 5 = 0.4");
+        assertThat(outputStreamCaptor.toString().trim()).isEqualTo("1. 3 + 2 + 4 = 9");
     }
+
 }
