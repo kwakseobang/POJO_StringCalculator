@@ -1,12 +1,13 @@
-package org.kwakmunsu.OutPut;
+package org.kwakmunsu;
 
 import java.util.stream.IntStream;
+import org.kwakmunsu.OutPut.CalculateResult;
 
-public class PrintResult {
+public class ExpressionResultDisplay {
 
     private final StringBuilder stringBuilder;
 
-    public PrintResult() {
+    public ExpressionResultDisplay() {
         this.stringBuilder = new StringBuilder();
     }
 
@@ -14,11 +15,10 @@ public class PrintResult {
         System.out.println(stringBuilder);
     }
 
-    public void resultAppender(String[] parsedOperand, String operator, double result,
-        int printNum) {
-        stringBuilder.append(printNum).append(".").append(" ");
-        appendOperandsAndOperator(parsedOperand, operator);
-        appendResultValue(result);
+    public void resultAppender(CalculateResult calculateResult) {
+        stringBuilder.append(calculateResult.printNum()).append(".").append(" ");
+        appendOperandsAndOperator(calculateResult.parsedOperand(), calculateResult.operator());
+        appendResultValue(calculateResult.result());
     }
 
     private void appendOperandsAndOperator(String[] operands, String operator) {
@@ -41,3 +41,4 @@ public class PrintResult {
     }
 
 }
+
