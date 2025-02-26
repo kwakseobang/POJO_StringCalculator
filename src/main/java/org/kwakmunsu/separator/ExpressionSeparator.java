@@ -1,7 +1,6 @@
-package org.kwakmunsu.parser;
+package org.kwakmunsu.separator;
 
-import org.kwakmunsu.Input.Expression;
-import org.kwakmunsu.operation.OperationSelector;
+import org.kwakmunsu.input.Expression;
 import org.kwakmunsu.error.ErrorMessage;
 
 public class ExpressionSeparator {
@@ -10,41 +9,37 @@ public class ExpressionSeparator {
     private static final String OPERAND_SEPARATOR = "^[0-9]+([,:][0-9]+)*$";
     private static final String OPERATOR_SEPARATOR = "[+\\-*/]";
 
-    private OperationSelector operationSelector;
-    private String operand;
+    private String operands;
     private String operator;
 
-    public ExpressionSeparator() {
-        this.operationSelector = new OperationSelector();
-    }
-
-    public Expression separateExpression(String operand, String operator) {
-        setOperand(operand);
+    public Expression separateExpression(String operands, String operator) {
+        setOperands(operands);
         setOperator(operator);
+        // 연산자, 피연산자 유효성 검증은 expression 를 만들어낸 이 클래스에서 책임져줘야 생각했음.
         validateExpression();
-        String[] seperatedOperand = separateOperand();
-        return new Expression(seperatedOperand, operationSelector.selecteOperation(operator));
+        String[] seperatedOperands = separateOperands();
+        return new Expression(seperatedOperands, operator);
     }
 
-    private void setOperand(String operand) {
-        this.operand = operand;
+    private void setOperands(String operands) {
+        this.operands = operands;
     }
 
     private void setOperator(String operator) {
         this.operator = operator;
     }
 
-    private String[] separateOperand() {
-        return operand.split(SEPARATOR);
+    private String[] separateOperands() {
+        return operands.split(SEPARATOR);
     }
 
     private void validateExpression() {
-        validateOperand();
+        validateOperands();
         validateOperator();
     }
 
-    private void validateOperand() {
-        if (!operand.matches(OPERAND_SEPARATOR)) {
+    private void validateOperands() {
+        if (!operands.matches(OPERAND_SEPARATOR)) {
             throw new IllegalArgumentException(ErrorMessage.BAD_REQUEST_OPERAND.getMessage());
         }
     }
