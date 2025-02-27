@@ -1,11 +1,15 @@
 package org.kwakmunsu.output;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThatCode;
+import static org.assertj.core.api.SoftAssertions.assertSoftly;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.kwakmunsu.error.ErrorMessage;
 import org.kwakmunsu.input.Expression;
 
 class PrintResultTest {
