@@ -7,6 +7,7 @@ import org.kwakmunsu.separator.ExpressionSeparator;
 public class InputExpression {
 
     private final ExpressionSeparator expressionSeparator;
+    private static final int MIN_EXPRESSION_LENGTH = 2;
 
     public InputExpression() {
         this.expressionSeparator = new ExpressionSeparator();
@@ -23,6 +24,7 @@ public class InputExpression {
         // 가독성을 위해서 따로 할당함.
         String operands = expression[0];
         String operator = expression[1];
+        // 구현이 아니라 단순 메시지 전달이라 생각하여 단일 책임 원칙이 지켜졌다고 생각함.
         return expressionSeparator.separateExpression(operands, operator);
     }
 
@@ -30,7 +32,7 @@ public class InputExpression {
     private void validateNUllOrEmpty(String[] expression) {
         if (expression == null) {
             throw new NullPointerException(ErrorMessage.INVALID_NULL.getMessage());
-        } else if (expression.length != 2) {
+        } else if (expression.length != MIN_EXPRESSION_LENGTH) {
             throw new IllegalArgumentException(ErrorMessage.NO_SUCH_ELEMENT.getMessage());
         }
     }
