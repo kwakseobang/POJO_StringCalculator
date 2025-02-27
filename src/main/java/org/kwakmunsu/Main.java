@@ -1,9 +1,9 @@
 package org.kwakmunsu;
 
+import org.kwakmunsu.calculator.ExpressionCalculator;
 import org.kwakmunsu.input.Expression;
 import org.kwakmunsu.input.InputExpression;
 import org.kwakmunsu.output.ExpressionResultDisplay;
-import org.kwakmunsu.calculator.ExpressionCalculator;
 
 public class Main {
 
@@ -13,7 +13,9 @@ public class Main {
         ExpressionCalculator expressionCalculator = new ExpressionCalculator();
 
         Expression expression = inputExpression.createExpression();
+
         double result = expressionCalculator.calculateExpression(expression);
+
         expressionResultDisplay.resultPrinter(expression, result);
     }
 
