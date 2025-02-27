@@ -1,6 +1,5 @@
 package org.kwakmunsu.input;
 
-import java.util.NoSuchElementException;
 import java.util.Scanner;
 import org.kwakmunsu.error.ErrorMessage;
 import org.kwakmunsu.separator.ExpressionSeparator;
@@ -17,7 +16,6 @@ public class InputExpression {
 
     public Expression createExpression() {
         Scanner sc = new Scanner(System.in);
-        validateEmpty(sc);
         String[] expression = sc.nextLine().split(EMPTY_CHAR);
         validateMinExpressionLength(expression);
         return expressionSeparator(expression);
@@ -35,12 +33,6 @@ public class InputExpression {
     private void validateMinExpressionLength(String[] expression) {
         if (expression.length != MIN_EXPRESSION_LENGTH) {
             throw new IllegalArgumentException(ErrorMessage.NOT_MIN_INPUT_EXPRESSION.getMessage());
-        }
-    }
-
-    private void validateEmpty(Scanner sc) {
-        if (!sc.hasNextLine()) {
-            throw new NoSuchElementException(ErrorMessage.NO_SUCH_ELEMENT.getMessage());
         }
     }
 
