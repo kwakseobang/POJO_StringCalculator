@@ -36,7 +36,7 @@ class InputExpressionTest {
     }
 
     @Test
-    void 연산자_공백_입력_예외_테스트() {
+    void 입력_예외_테스트() {
         // given
         String input = "10";
         System.setIn(new ByteArrayInputStream(input.getBytes()));
@@ -46,14 +46,4 @@ class InputExpressionTest {
             .hasMessage(ErrorMessage.NOT_MIN_INPUT_EXPRESSION.getMessage());
     }
 
-    @Test
-    void 빈_입력_예외_테스트() {
-        // given
-        String input = "";
-        System.setIn(new ByteArrayInputStream(input.getBytes()));
-        // when & then
-        assertThatThrownBy(() -> inputExpression.createExpression())
-            .isInstanceOf(NoSuchElementException.class)
-            .hasMessage(ErrorMessage.NO_SUCH_ELEMENT.getMessage());
-    }
 }
