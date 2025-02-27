@@ -1,5 +1,6 @@
 package org.kwakmunsu.input;
 
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 import org.kwakmunsu.error.ErrorMessage;
 import org.kwakmunsu.separator.ExpressionSeparator;
@@ -8,6 +9,7 @@ public class InputExpression {
 
     private final ExpressionSeparator expressionSeparator;
     private static final int MIN_EXPRESSION_LENGTH = 2;
+    private static final String EMPTY_CHAR = " ";
 
     public InputExpression() {
         this.expressionSeparator = new ExpressionSeparator();
@@ -15,8 +17,9 @@ public class InputExpression {
 
     public Expression createExpression() {
         Scanner sc = new Scanner(System.in);
-        String[] expression = sc.nextLine().split(" ");
-        validateNUllOrEmpty(expression);
+        validateEmpty(sc);
+        String[] expression = sc.nextLine().split(EMPTY_CHAR);
+        validateMinExpressionLength(expression);
         return expressionSeparator(expression);
     }
 
@@ -28,12 +31,16 @@ public class InputExpression {
         return expressionSeparator.separateExpression(operands, operator);
     }
 
-    // 수식의 유효성 검증은 expression 를 만들어낸  이 클래스에서 책임져줘야 생각했음.
-    private void validateNUllOrEmpty(String[] expression) {
-        if (expression == null) {
-            throw new NullPointerException(ErrorMessage.INVALID_NULL.getMessage());
-        } else if (expression.length != MIN_EXPRESSION_LENGTH) {
-            throw new IllegalArgumentException(ErrorMessage.NO_SUCH_ELEMENT.getMessage());
+    // 수식의 유효성 검증은 expression 를 만들어낸 이 클래스에서 책임져줘야 생각했음.
+    private void validateMinExpressionLength(String[] expression) {
+        if (expression.length != MIN_EXPRESSION_LENGTH) {
+            throw new IllegalArgumentException(ErrorMessage.NOT_MIN_INPUT_EXPRESSION.getMessage());
+        }
+    }
+
+    private void validateEmpty(Scanner sc) {
+        if (!sc.hasNextLine()) {
+            throw new NoSuchElementException(ErrorMessage.NO_SUCH_ELEMENT.getMessage());
         }
     }
 
